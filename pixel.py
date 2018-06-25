@@ -147,7 +147,11 @@ def make_ruler_layers(dot_size):
 
     # add layer name
     draw_text(ImageDraw.Draw(layers[0]), fidutial_1_x + layer_name_x_offset, fidutial_1_y + layer_name_y_offset, "A")
-    draw_text(ImageDraw.Draw(layers[1]), fidutial_1_x + layer_name_x_offset, fidutial_1_y + layer_name_y_offset, "B")
+    draw_text(ImageDraw.Draw(layers[1]), fidutial_1_x + layer_name_x_offset, fidutial_1_y - layer_name_y_offset, "B")
+
+    # add dots below layer names so we know which side is up
+    draw_text(ImageDraw.Draw(layers[0]), fidutial_1_x + layer_name_x_offset, fidutial_1_y + layer_name_y_offset + 15, "_")
+    draw_text(ImageDraw.Draw(layers[1]), fidutial_1_x + layer_name_x_offset, fidutial_1_y - layer_name_y_offset + 15, "_")
 
     #img.show()
     #layers[0].show()
@@ -175,12 +179,12 @@ if __name__ == "__main__":
     # create A4 sheet
     img_a4 = Image.new("RGBA", (2100, 2970), (0, 0, 0, 0))
 
-    # paste
+    # paste, mirroring one of each pair
     img_a4.paste(layers_2[0].rotate(90, expand=1), (15, 360))
-    img_a4.paste(layers_2[1].rotate(90, expand=1), (360, 360))
+    img_a4.paste(ImageOps.mirror(layers_2[1]).rotate(90, expand=1), (360, 360))
     img_a4.paste(layers_3[0].rotate(90, expand=1), (705, 360))
-    img_a4.paste(layers_3[1].rotate(90, expand=1), (1050, 360))
+    img_a4.paste(ImageOps.mirror(layers_3[1]).rotate(90, expand=1), (1050, 360))
     img_a4.paste(layers_4[0].rotate(90, expand=1), (1395, 360))
-    img_a4.paste(layers_4[1].rotate(90, expand=1), (1740, 360))
+    img_a4.paste(ImageOps.mirror(layers_4[1]).rotate(90, expand=1), (1740, 360))
 
     img_a4.save("a4.png")
